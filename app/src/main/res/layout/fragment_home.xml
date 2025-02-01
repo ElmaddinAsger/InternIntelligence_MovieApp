@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment"
+    android:background="@color/black">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_header_movie_slide"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="4:3"
+        android:background="@color/white"/>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorHeight="0dp"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        android:background="#00000000"
+        android:contentDescription="movie slide"
+        app:layout_constraintBottom_toBottomOf="@id/vp_header_movie_slide"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    
+    <TextView
+        android:id="@+id/txtvw_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categories"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/vp_header_movie_slide"
+        app:layout_constraintBottom_toTopOf="@id/rv_categories"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        tools:listitem="@layout/item_category"
+        app:layout_constraintTop_toBottomOf="@id/txtvw_categories"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_cover_list"
+        app:layout_constraintTop_toBottomOf="@id/rv_categories"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
