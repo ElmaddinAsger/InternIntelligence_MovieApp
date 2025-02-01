@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
         changeTab()
         startAutoMovieChange()
         getCovers(coverList)
+
     }
 
 
