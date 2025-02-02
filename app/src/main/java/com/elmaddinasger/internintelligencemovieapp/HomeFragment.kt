@@ -52,12 +52,12 @@ class HomeFragment : Fragment() {
         "Thriller", "War", "Western")
 
     private val images = mutableListOf(
-        MovieModel(1,"https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
-        MovieModel(2,"https://picsum.photos/seed/picsum/200/300"),
-        MovieModel(3,"https://picsum.photos/200/300?grayscale"),
-        MovieModel(4,"https://picsum.photos/id/237/200/300"),
-        MovieModel(5,"https://picsum.photos/seed/picsum/200/300"),
-        MovieModel(6,"https://picsum.photos/200/300?grayscale"))
+        MovieModel(1,"apple","https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
+        MovieModel(2,"apple","https://picsum.photos/seed/picsum/200/300"),
+        MovieModel(3,"apple","https://picsum.photos/200/300?grayscale"),
+        MovieModel(4,"apple","https://picsum.photos/id/237/200/300"),
+        MovieModel(5,"apple","https://picsum.photos/seed/picsum/200/300"),
+        MovieModel(6,"apple","https://picsum.photos/200/300?grayscale"))
 
     private val coverList = mutableListOf(
         CoverModel(1,"Most Popular", images),

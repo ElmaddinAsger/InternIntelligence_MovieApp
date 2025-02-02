@@ -12,7 +12,66 @@
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"/>
+        app:navGraph="@navigation/nav_graph"
+        app:layout_constraintBottom_toTopOf="@id/cw_main_menu"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cw_main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E71B2B4D">
+            <ImageButton
+                android:id="@+id/imgbtn_home"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/home"
+                android:contentDescription="Home"
+                android:background="#000B0B0B"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/imgbtn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/search"
+                android:contentDescription="Search"
+                android:background="#000B0B0B"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/imgbtn_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/bookmark"
+                android:contentDescription="Bookmark"
+                android:background="#000B0B0B"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/imgbtn_download"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/download"
+                android:contentDescription="Download"
+                android:background="#000B0B0B"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/imgbtn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/person"
+                android:contentDescription="Profile"
+                android:background="#000B0B0B"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
