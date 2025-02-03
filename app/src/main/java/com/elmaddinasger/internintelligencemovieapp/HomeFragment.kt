@@ -3,6 +3,7 @@ package com.elmaddinasger.internintelligencemovieapp
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,20 @@ import com.elmaddinasger.internintelligencemovieapp.adapters.CoverAdapter
 import com.elmaddinasger.internintelligencemovieapp.adapters.MovieSlideAdapter
 import com.elmaddinasger.internintelligencemovieapp.databinding.FragmentHomeBinding
 import com.elmaddinasger.internintelligencemovieapp.models.CoverModel
-import com.elmaddinasger.internintelligencemovieapp.models.MovieModel
+import com.elmaddinasger.internintelligencemovieapp.models.Genre
+import com.elmaddinasger.internintelligencemovieapp.models.Genres
+import com.elmaddinasger.internintelligencemovieapp.models.LocalMovieModel
+import com.elmaddinasger.internintelligencemovieapp.models.OnlineMovieList
+import com.elmaddinasger.internintelligencemovieapp.services.Retrofit
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -23,7 +36,11 @@ class HomeFragment : Fragment() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var coverAdapter: CoverAdapter
     private lateinit var viewPager: ViewPager2
+
     private var currentPosition = 0
+    private val token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YjhhZGM4ZDA0YTA4ZTk4NjVlZDk2YjllOTc0ODYwYiIsIm5iZiI6MTczODM5MTMxMi42NzIsInN1YiI6IjY3OWRiZjEwMTc0MmI0NGExNGNiMzdmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OzKXsqf73IJ5E6nPx4vbRe4iVCXOEn_cSFlheccQkbE"
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,55 +53,52 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewPager(images)
+        getMovieGenreList()
         getCategories(categories)
-        getCovers(coverList)
-        changeTab()
         startAutoMovieChange()
-        getCovers(coverList)
+        changeTab()
+        CoroutineScope(Dispatchers.IO).launch {
+            getNowPlayingMovies()
+            getTopRatedMovies()
+            getPopularMovies()
+            getUpcomingMovies()
+            withContext(Dispatchers.Main){
+                getCovers(coverList)
+            }
+        }
+
+
+
+    }
+
+    private fun retrofit () {
+
 
     }
 
 
 
-    private val categories = listOf(
-        "All", "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama",
-        "Fantasy", "Historical", "Horror", "Musical", "Mystery", "Romance", "Science Fiction (Sci-Fi)",
-        "Thriller", "War", "Western")
+    private val categories = mutableListOf<Genre>()
 
     private val images = mutableListOf(
-        MovieModel(1,"apple","https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
-        MovieModel(2,"apple","https://picsum.photos/seed/picsum/200/300"),
-        MovieModel(3,"apple","https://picsum.photos/200/300?grayscale"),
-        MovieModel(4,"apple","https://picsum.photos/id/237/200/300"),
-        MovieModel(5,"apple","https://picsum.photos/seed/picsum/200/300"),
-        MovieModel(6,"apple","https://picsum.photos/200/300?grayscale"))
+        LocalMovieModel(1,"apple","https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
+        LocalMovieModel(2,"apple","https://picsum.photos/seed/picsum/200/300"),
+        LocalMovieModel(3,"apple","https://picsum.photos/200/300?grayscale"),
+        LocalMovieModel(4,"apple","https://picsum.photos/id/237/200/300"),
+        LocalMovieModel(5,"apple","https://picsum.photos/seed/picsum/200/300"),
+        LocalMovieModel(6,"apple","https://picsum.photos/200/300?grayscale"))
 
-    private val coverList = mutableListOf(
-        CoverModel(1,"Most Popular", images),
-        CoverModel(2,"Most Popular", images),
-        CoverModel(3,"Most Popular", images),
-        CoverModel(4,"Most Popular", images),
-        CoverModel(5,"Most Popular", images),
-        CoverModel(6,"Most Popular", images),
-        CoverModel(7,"Most Popular", images),
-        CoverModel(8,"Most Popular", images)
-    )
+    private val coverList = mutableListOf<CoverModel>()
 
-    private fun getViewPager (movieList: List<MovieModel>){
+    private fun getViewPager (movieList: List<LocalMovieModel>){
         movieSlideAdapter = MovieSlideAdapter(movieList)
         viewPager = binding.vpHeaderMovieSlide
         binding.vpHeaderMovieSlide.adapter = movieSlideAdapter
     }
 
-    private fun getCategories (categories: List<String>) {
+    private fun getCategories (categories: List<Genre>) {
         categoryAdapter = CategoryAdapter(categories)
         binding.rvCategories.adapter = categoryAdapter
-    }
-
-    private fun getCovers(coverList: MutableList<CoverModel>) {
-        coverAdapter = CoverAdapter()
-        coverAdapter.setList(coverList)
-        binding.rvCover.adapter = coverAdapter
     }
 
     private fun startAutoMovieChange(){
@@ -119,5 +133,149 @@ class HomeFragment : Fragment() {
                 tab.setIcon(R.drawable.inactive_dot)
             }
         }.attach()
+    }
+
+    private fun getNowPlayingMovies () {
+        val call = Retrofit.movieApi.getNowPlayingMovies(token)
+        call.enqueue(object : Callback<OnlineMovieList> {
+            override fun onResponse(call: Call<OnlineMovieList>, response: Response<OnlineMovieList>) {
+
+                if (response.isSuccessful) {
+                    response.body()?.let { movieList ->
+
+                        val upcomingMovies = mutableListOf<LocalMovieModel>()
+
+                        movieList.results.forEach {
+                            upcomingMovies.add(
+                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                            )
+                        }
+                        val nowPlayingCover = CoverModel(1,"Now Playing",upcomingMovies)
+                        if(!coverList.contains(nowPlayingCover)) {
+                            coverList.add(nowPlayingCover)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OnlineMovieList>, t: Throwable) {
+                Log.e("RETROFIT","Network error: ${t.message}")
+            }
+        })
+
+    }
+
+    private fun getTopRatedMovies () {
+        val call = Retrofit.movieApi.getTopRatedMovies(token)
+        call.enqueue(object : Callback<OnlineMovieList> {
+            override fun onResponse(call: Call<OnlineMovieList>, response: Response<OnlineMovieList>) {
+
+                if (response.isSuccessful) {
+                    response.body()?.let { movieList ->
+
+                        val topRatedMovies = mutableListOf<LocalMovieModel>()
+
+                        movieList.results.forEach {
+                            topRatedMovies.add(
+                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                            )
+                        }
+                        val topRatedCover = CoverModel(2,"Top Rated",topRatedMovies)
+                        if(!coverList.contains(topRatedCover)) {
+                            coverList.add(topRatedCover)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OnlineMovieList>, t: Throwable) {
+                Log.e("RETROFIT","Network error: ${t.message}")
+            }
+        })
+
+    }
+
+    private fun getPopularMovies () {
+        val call = Retrofit.movieApi.getPopularMovies(token)
+        call.enqueue(object : Callback<OnlineMovieList>{
+            override fun onResponse(p0: Call<OnlineMovieList>, response: Response<OnlineMovieList>) {
+                if (response.isSuccessful){
+                    response.body()?.let { movieList ->
+                        val popularMovies = mutableListOf<LocalMovieModel>()
+                        movieList.results.forEach {
+                            popularMovies.add(
+                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                            )
+                        }
+                        val popularCover = CoverModel(3,"Popular",popularMovies)
+                        if(!coverList.contains(popularCover)) {
+                            coverList.add(popularCover)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<OnlineMovieList>, t: Throwable) {
+                Log.e("RETROFIT","Network error: ${t.message}")
+            }
+
+        })
+    }
+
+    private fun getUpcomingMovies () {
+        val call = Retrofit.movieApi.getUpcomingMovies(token)
+        call.enqueue(object : Callback<OnlineMovieList> {
+            override fun onResponse(call: Call<OnlineMovieList>, response: Response<OnlineMovieList>) {
+
+                if (response.isSuccessful) {
+                    response.body()?.let { movieList ->
+
+                        val upcomingMovies = mutableListOf<LocalMovieModel>()
+
+                        movieList.results.forEach {
+                            upcomingMovies.add(
+                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                            )
+                        }
+                        val upcomingCover = CoverModel(4,"Upcoming",upcomingMovies)
+                        if(!coverList.contains(upcomingCover)) {
+                            coverList.add(upcomingCover)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<OnlineMovieList>, t: Throwable) {
+                Log.e("RETROFIT","Network error: ${t.message}")
+            }
+        })
+
+    }
+
+    private fun getMovieGenreList () {
+        val call = Retrofit.movieApi.getMovieGenreList(token)
+        call.enqueue(object : Callback<Genres> {
+            override fun onResponse(p0: Call<Genres>, response: Response<Genres>) {
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        it.genres.forEach { genre ->
+                            if (!categories.contains(genre)) {
+                                categories.add(genre)
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<Genres>, t: Throwable) {
+                Log.e("RETROFIT","Network error: ${t.message}")
+            }
+        })
+    }
+
+    private fun getCovers(coverList: MutableList<CoverModel>) {
+        coverAdapter = CoverAdapter()
+        coverAdapter.setList(coverList)
+        binding.rvCover.adapter = coverAdapter
     }
 }

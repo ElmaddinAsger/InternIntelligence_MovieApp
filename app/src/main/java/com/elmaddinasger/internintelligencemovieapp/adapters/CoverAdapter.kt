@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.elmaddinasger.internintelligencemovieapp.databinding.ItemCoverListBinding
 import com.elmaddinasger.internintelligencemovieapp.models.CoverModel
-import com.elmaddinasger.internintelligencemovieapp.models.MovieModel
 
 class CoverAdapter(): RecyclerView.Adapter<CoverAdapter.CoverViewHolder>() {
     private val diffUtil = object : DiffUtil.ItemCallback<CoverModel>() {

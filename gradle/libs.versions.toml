@@ -13,6 +13,7 @@ constraintlayout = "2.2.0"
 nav_version = "2.8.6"
 vP2_version = "1.1.0"
 glide_version = "4.16.0"
+retrofit_version = "2.11.0"
 
 
 [libraries]
@@ -29,6 +30,9 @@ androidx-navigation-fragment = { group = "androidx.navigation", name = "navigati
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "nav_version" }
 androidx-viewpager2 = {group = "androidx.viewpager2", name = "viewpager2", version.ref = "vP2_version"}
 bumptech-glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide_version"}
+squareup-retrofit = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit_version"}
+squareup-retrofit-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit_version"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -85,6 +85,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:src="@drawable/menu"
+    android:contentDescription="menu"
     android:background="#00000000"
     app:layout_constraintTop_toTopOf="@id/img_movie_photo"
     app:layout_constraintStart_toStartOf="@id/guideline"

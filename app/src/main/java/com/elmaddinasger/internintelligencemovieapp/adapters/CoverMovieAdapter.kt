@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elmaddinasger.internintelligencemovieapp.databinding.ItemMovieInCoverListBinding
-import com.elmaddinasger.internintelligencemovieapp.models.MovieModel
+import com.elmaddinasger.internintelligencemovieapp.models.LocalMovieModel
 
 class CoverMovieAdapter: RecyclerView.Adapter<CoverMovieAdapter.CoverMovieViewHolder>() {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<MovieModel>() {
-        override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+    private val diffUtil = object : DiffUtil.ItemCallback<LocalMovieModel>() {
+        override fun areItemsTheSame(oldItem: LocalMovieModel, newItem: LocalMovieModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+        override fun areContentsTheSame(oldItem: LocalMovieModel, newItem: LocalMovieModel): Boolean {
             return oldItem == newItem
         }
 
@@ -38,12 +38,12 @@ class CoverMovieAdapter: RecyclerView.Adapter<CoverMovieAdapter.CoverMovieViewHo
         holder.bind(currentMovie)
     }
 
-    fun setMovieList (currentMovieList: MutableList<MovieModel>){
+    fun setMovieList (currentMovieList: MutableList<LocalMovieModel>){
         asyncListDiffer.submitList(currentMovieList)
     }
 
     inner class CoverMovieViewHolder(private val binding: ItemMovieInCoverListBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(currentMovie: MovieModel){
+        fun bind(currentMovie: LocalMovieModel){
             Glide.with(binding.root.context)
                 .load(currentMovie.imageUrl)
                 .into(binding.imgbtnMovie)

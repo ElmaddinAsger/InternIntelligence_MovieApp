@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmaddinasger.internintelligencemovieapp.R
 import com.elmaddinasger.internintelligencemovieapp.databinding.ItemCategoryBinding
+import com.elmaddinasger.internintelligencemovieapp.models.Genre
 
-class CategoryAdapter(private val categories: List<String>): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(private val categories: List<Genre>): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private var selectedPosition = 0
 
@@ -20,7 +21,7 @@ class CategoryAdapter(private val categories: List<String>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.binding.btnCategory.text = categories[position]
+        holder.binding.btnCategory.text = categories[position].name
         holder.bind()
     }
 

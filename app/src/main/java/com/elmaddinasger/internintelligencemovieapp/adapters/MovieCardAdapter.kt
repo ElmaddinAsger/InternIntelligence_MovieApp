@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elmaddinasger.internintelligencemovieapp.databinding.ItemMovieCardBinding
-import com.elmaddinasger.internintelligencemovieapp.models.MovieModel
+import com.elmaddinasger.internintelligencemovieapp.models.LocalMovieModel
 
 class MovieCardAdapter: RecyclerView.Adapter<MovieCardAdapter.MovieCardViewHolder>() {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<MovieModel>() {
-        override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+    private val diffUtil = object : DiffUtil.ItemCallback<LocalMovieModel>() {
+        override fun areItemsTheSame(oldItem: LocalMovieModel, newItem: LocalMovieModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+        override fun areContentsTheSame(oldItem: LocalMovieModel, newItem: LocalMovieModel): Boolean {
             return oldItem == newItem
         }
 
@@ -39,12 +39,12 @@ class MovieCardAdapter: RecyclerView.Adapter<MovieCardAdapter.MovieCardViewHolde
 
     }
 
-    fun setMovieCardList (movieCardList: MutableList<MovieModel>){
+    fun setMovieCardList (movieCardList: MutableList<LocalMovieModel>){
         asyncListDiffer.submitList(movieCardList)
     }
 
     inner class MovieCardViewHolder(private val binding: ItemMovieCardBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(currentMovieCard: MovieModel){
+        fun bind(currentMovieCard: LocalMovieModel){
             binding.apply {
                 Glide.with(root.context)
                     .load(currentMovieCard.imageUrl)

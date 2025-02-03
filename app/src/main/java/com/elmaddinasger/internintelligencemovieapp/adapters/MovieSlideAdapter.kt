@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elmaddinasger.internintelligencemovieapp.databinding.ItemMovieSlideBinding
-import com.elmaddinasger.internintelligencemovieapp.models.MovieModel
+import com.elmaddinasger.internintelligencemovieapp.models.LocalMovieModel
 
-class MovieSlideAdapter(private val movieList: List<MovieModel>): RecyclerView.Adapter<MovieSlideAdapter.MovieSlideViewHolder>() {
+class MovieSlideAdapter(private val movieList: List<LocalMovieModel>): RecyclerView.Adapter<MovieSlideAdapter.MovieSlideViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieSlideViewHolder {
         val binding = ItemMovieSlideBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -24,7 +24,7 @@ class MovieSlideAdapter(private val movieList: List<MovieModel>): RecyclerView.A
     }
 
     inner class MovieSlideViewHolder(private val binding: ItemMovieSlideBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(currentMovie: MovieModel){
+        fun bind(currentMovie: LocalMovieModel){
             Glide.with(binding.root.context)
                 .load(currentMovie.imageUrl)
                 .into(binding.imgCurrentMovie)
