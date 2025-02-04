@@ -26,7 +26,7 @@ class MovieSlideAdapter(private val movieList: List<LocalMovieModel>): RecyclerV
     inner class MovieSlideViewHolder(private val binding: ItemMovieSlideBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(currentMovie: LocalMovieModel){
             Glide.with(binding.root.context)
-                .load(currentMovie.imageUrl)
+                .load(currentMovie.posterPath)
                 .into(binding.imgCurrentMovie)
         }
     }

@@ -45,7 +45,7 @@ class CoverMovieAdapter: RecyclerView.Adapter<CoverMovieAdapter.CoverMovieViewHo
     inner class CoverMovieViewHolder(private val binding: ItemMovieInCoverListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(currentMovie: LocalMovieModel){
             Glide.with(binding.root.context)
-                .load(currentMovie.imageUrl)
+                .load(currentMovie.posterPath)
                 .into(binding.imgbtnMovie)
         }
     }

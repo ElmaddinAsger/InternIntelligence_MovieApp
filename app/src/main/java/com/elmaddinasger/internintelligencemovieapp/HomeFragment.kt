@@ -13,6 +13,7 @@ import com.elmaddinasger.internintelligencemovieapp.adapters.CategoryAdapter
 import com.elmaddinasger.internintelligencemovieapp.adapters.CoverAdapter
 import com.elmaddinasger.internintelligencemovieapp.adapters.MovieSlideAdapter
 import com.elmaddinasger.internintelligencemovieapp.databinding.FragmentHomeBinding
+import com.elmaddinasger.internintelligencemovieapp.dto.toLocalMovieModelDTO
 import com.elmaddinasger.internintelligencemovieapp.models.CoverModel
 import com.elmaddinasger.internintelligencemovieapp.models.Genre
 import com.elmaddinasger.internintelligencemovieapp.models.Genres
@@ -71,23 +72,9 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun retrofit () {
-
-
-    }
-
-
-
     private val categories = mutableListOf<Genre>()
 
-    private val images = mutableListOf(
-        LocalMovieModel(1,"apple","https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
-        LocalMovieModel(2,"apple","https://picsum.photos/seed/picsum/200/300"),
-        LocalMovieModel(3,"apple","https://picsum.photos/200/300?grayscale"),
-        LocalMovieModel(4,"apple","https://picsum.photos/id/237/200/300"),
-        LocalMovieModel(5,"apple","https://picsum.photos/seed/picsum/200/300"),
-        LocalMovieModel(6,"apple","https://picsum.photos/200/300?grayscale"))
-
+    private val images = mutableListOf<LocalMovieModel>()
     private val coverList = mutableListOf<CoverModel>()
 
     private fun getViewPager (movieList: List<LocalMovieModel>){
@@ -147,7 +134,7 @@ class HomeFragment : Fragment() {
 
                         movieList.results.forEach {
                             upcomingMovies.add(
-                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                                it.toLocalMovieModelDTO()
                             )
                         }
                         val nowPlayingCover = CoverModel(1,"Now Playing",upcomingMovies)
@@ -177,7 +164,7 @@ class HomeFragment : Fragment() {
 
                         movieList.results.forEach {
                             topRatedMovies.add(
-                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                                it.toLocalMovieModelDTO()
                             )
                         }
                         val topRatedCover = CoverModel(2,"Top Rated",topRatedMovies)
@@ -204,7 +191,7 @@ class HomeFragment : Fragment() {
                         val popularMovies = mutableListOf<LocalMovieModel>()
                         movieList.results.forEach {
                             popularMovies.add(
-                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                                it.toLocalMovieModelDTO()
                             )
                         }
                         val popularCover = CoverModel(3,"Popular",popularMovies)
@@ -234,7 +221,7 @@ class HomeFragment : Fragment() {
 
                         movieList.results.forEach {
                             upcomingMovies.add(
-                                LocalMovieModel(it.id.toLong(),it.original_title,"https://image.tmdb.org/t/p/w154${it.poster_path}")
+                                it.toLocalMovieModelDTO()
                             )
                         }
                         val upcomingCover = CoverModel(4,"Upcoming",upcomingMovies)

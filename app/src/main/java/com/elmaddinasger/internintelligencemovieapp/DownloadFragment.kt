@@ -34,14 +34,7 @@ class DownloadFragment : Fragment() {
         getMovieCardAdapter(images)
     }
 
-    private val images = mutableListOf(
-        LocalMovieModel(1,"apple","https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
-        LocalMovieModel(2,"apple","https://picsum.photos/seed/picsum/200/300"),
-        LocalMovieModel(3,"apple","https://picsum.photos/200/300?grayscale"),
-        LocalMovieModel(4,"apple","https://picsum.photos/id/237/200/300"),
-        LocalMovieModel(5,"apple","https://picsum.photos/seed/picsum/200/300"),
-        LocalMovieModel(6,"apple","https://picsum.photos/200/300?grayscale")
-    )
+    private val images = mutableListOf<LocalMovieModel>()
 
 
     private fun getMovieCardAdapter (movieCardList: MutableList<LocalMovieModel>) {

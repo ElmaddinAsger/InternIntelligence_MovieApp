@@ -47,13 +47,13 @@ class MovieCardAdapter: RecyclerView.Adapter<MovieCardAdapter.MovieCardViewHolde
         fun bind(currentMovieCard: LocalMovieModel){
             binding.apply {
                 Glide.with(root.context)
-                    .load(currentMovieCard.imageUrl)
+                    .load(currentMovieCard.posterPath)
                     .into(imgMoviePhoto)
 
-                txtvwMovieName.text = currentMovieCard.movieName
+                txtvwMovieName.text = currentMovieCard.title
 
                 txtvwMovieSize.text = currentMovieCard.id.toString()
-                txtvwMovieGenre.text = currentMovieCard.movieName
+                txtvwMovieGenre.text = currentMovieCard.title
                 txtvwMovieTime.text = currentMovieCard.id.toString()
             }
         }
